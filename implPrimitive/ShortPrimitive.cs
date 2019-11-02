@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using nonMetaSerializer.researchAlgorithm;
+
+namespace nonMetaSerializer.implPrimitive
+{
+    class ShortPrimitive : IPrimitive
+    {
+        private readonly int length = 2;
+
+        byte[] IPrimitive.GetByteStream(object valueField)
+        {
+            var shortValue = (short)valueField;
+            return BitConverter.GetBytes(shortValue);
+        }
+
+        object IPrimitive.GetValueField(StreamExtractorHandler streamExtractor)
+        {
+            byte[] bytes = streamExtractor(length);
+            return BitConverter.ToInt16(bytes, 0);
+        }
+    }
+}
