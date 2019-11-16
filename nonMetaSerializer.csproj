@@ -39,7 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="actionContainers\Deserialize.cs" />
+    <Compile Include="actionContainers\Serialize.cs" />
     <Compile Include="BytesStream.cs" />
+    <Compile Include="concreteAction\ActionFactory.cs" />
+    <Compile Include="concreteAction\ArrayAction.cs" />
+    <Compile Include="concreteAction\IConcreteAction.cs" />
     <Compile Include="implementationAction\DeserializeAction.cs" />
     <Compile Include="implementationAction\SerializeAction.cs" />
     <Compile Include="implPrimitive\BoolPrimitive.cs" />
@@ -61,5 +66,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="researchAlgorithm\AbstractAction.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
