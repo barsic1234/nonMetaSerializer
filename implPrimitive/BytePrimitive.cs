@@ -19,7 +19,7 @@ namespace nonMetaSerializer.implPrimitive
 
         object IPrimitive.GetValueField(StreamExtractorHandler streamExtractor)
         {
-            byte[] bytes = streamExtractor(length);
+            List<byte> bytes = streamExtractor(length);
             byte singleByte = bytes[0];
             return singleByte;
         }

@@ -17,7 +17,7 @@ namespace nonMetaSerializer.implPrimitive
 
         object IPrimitive.GetValueField(StreamExtractorHandler streamExtractor)
         {
-            byte[] bytes = streamExtractor(length);
+            byte[] bytes = streamExtractor(length).ToArray();
             return BitConverter.ToBoolean(bytes, 0);
         }
     }

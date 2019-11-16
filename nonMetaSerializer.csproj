@@ -44,6 +44,7 @@
     <Compile Include="BytesStream.cs" />
     <Compile Include="concreteAction\ActionFactory.cs" />
     <Compile Include="concreteAction\ArrayAction.cs" />
+    <Compile Include="implPrimitive\DelegateHandler.cs" />
     <Compile Include="concreteAction\IConcreteAction.cs" />
     <Compile Include="implementationAction\DeserializeAction.cs" />
     <Compile Include="implementationAction\SerializeAction.cs" />
@@ -52,7 +53,7 @@
     <Compile Include="implPrimitive\CharPrimitive.cs" />
     <Compile Include="implPrimitive\DoublePrimitive.cs" />
     <Compile Include="implPrimitive\FloatPrimitive.cs" />
-    <Compile Include="implPrimitive\ImplPrimitiveFactory.cs" />
+    <Compile Include="implPrimitive\PrimitiveFactory.cs" />
     <Compile Include="implPrimitive\IntegerPrimitive.cs" />
     <Compile Include="implPrimitive\LongPrimitive.cs" />
     <Compile Include="implPrimitive\ShortPrimitive.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="implPrimitive\UshortPrimitive.cs" />
     <Compile Include="util\ArrayIterator.cs" />
     <Compile Include="errors\NonMetaSerializerException.cs" />
-    <Compile Include="researchAlgorithm\IPrimitive.cs" />
+    <Compile Include="implPrimitive\IPrimitive.cs" />
     <Compile Include="researchAlgorithm\IPrimitiveFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="researchAlgorithm\AbstractAction.cs" />

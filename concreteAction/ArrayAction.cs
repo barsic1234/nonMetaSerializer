@@ -1,4 +1,7 @@
-﻿using System;
+﻿using nonMetaSerializer.implPrimitive;
+using nonMetaSerializer.researchAlgorithm;
+using nonMetaSerializer.util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,31 +17,31 @@ namespace nonMetaSerializer.concreteAction
         }
         object IConcreteAction.Deserialize(StreamExtractorHandler streamExtractor)
         {
-            IPrimitive rankPrimitive = primitiveFactory.MakePrimitive(typeof(byte));
-            byte rank = (byte)rankPrimitive.GetValueField(StreamExtractor);
+            IPrimitive rankPrimitive = PrimitiveFactory.MakePrimitive(typeof(byte));
+            byte rank = (byte)rankPrimitive.GetValueField(streamExtractor);
 
             int[] lengths = new int[rank];
-            IPrimitive lengthPrimitive = primitiveFactory.MakePrimitive(typeof(ushort));
+            IPrimitive lengthPrimitive = PrimitiveFactory.MakePrimitive(typeof(ushort));
 
             object[] objLen = new object[rank];
 
             for (int dimension = 0; dimension < rank; dimension++)
             {
-                objLen[dimension] = lengthPrimitive.GetValueField(StreamExtractor);
+                objLen[dimension] = lengthPrimitive.GetValueField(streamExtractor);
                 lengths[dimension] = (ushort)objLen[dimension];
             }
 
-            recordObject = Activator.CreateInstance(objectType, objLen);
+            object recordObject = Activator.CreateInstance(type, objLen);
 
             var array = (Array)recordObject;
 
-            Type typeArray = array.GetType();
-            Type typeElement = typeArray.GetElementType();
+            Type typeElement = type.GetElementType();
 
             var arrayIndex = new ArrayIterator(lengths);
             for (int i = 0; i < array.Length; i++)
             {
-                object elementValue = CreateNewRecordInstance(typeElement);
+                IConcreteAction action = ActionFactory.MakeAction(typeElement);
+                object elementValue = action.Deserialize(streamExtractor);
 
                 int[] indices = arrayIndex.GetNext();
                 array.SetValue(elementValue, indices);
@@ -47,7 +50,32 @@ namespace nonMetaSerializer.concreteAction
 
         List<byte> IConcreteAction.Serialize(object dataObject)
         {
-            throw new NotImplementedException();
+            var array = (Array)recordObject;
+
+            IPrimitive rankPrimitive = primitiveFactory.MakePrimitive(typeof(byte));
+            byte[] rank = rankPrimitive.GetByteStream((byte)array.Rank);
+            resultStream.AddRange(rank);
+
+            int[] lengths = new int[array.Rank];
+
+            for (int dimension = 0; dimension < array.Rank; dimension++)
+            {
+                lengths[dimension] = array.GetLength(dimension);
+
+                IPrimitive lengthPrimitive = primitiveFactory.MakePrimitive(typeof(ushort));
+                byte[] bytesToWrite = lengthPrimitive.GetByteStream((ushort)lengths[dimension]);
+                resultStream.AddRange(bytesToWrite);
+            }
+
+            var arrayIndexator = new ArrayIterator(lengths);
+            for (int i = 0; i < array.Length; i++)
+            {
+                int[] index = arrayIndexator.GetNext();
+                object arrayItem = array.GetValue(index);
+
+                byte[] data = CreateNewSerializeInstance(arrayItem);
+                resultStream.AddRange(data);
+            }
         }
     }
 }

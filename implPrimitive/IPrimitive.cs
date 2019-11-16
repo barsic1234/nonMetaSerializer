@@ -1,6 +1,7 @@
-﻿namespace nonMetaSerializer.researchAlgorithm
+﻿using System.Collections.Generic;
+
+namespace nonMetaSerializer.implPrimitive
 {
-    internal delegate byte[] StreamExtractorHandler(int streamLength);
     interface IPrimitive
     {
         byte[] GetByteStream(object valueField);
