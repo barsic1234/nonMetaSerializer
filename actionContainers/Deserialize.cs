@@ -17,7 +17,7 @@ namespace nonMetaSerializer.actionContainers
             indexNextRead = 0;
         }
 
-        internal object RecordObject(Type type)
+        internal object ObjectRecord(Type type)
         {
             IConcreteAction action = ActionFactory.MakeAction(type);
             return action.Deserialize(StreamExtractor);

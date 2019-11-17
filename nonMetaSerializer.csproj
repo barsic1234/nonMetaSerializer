@@ -49,8 +49,6 @@
     <Compile Include="concreteAction\StringAction.cs" />
     <Compile Include="implPrimitive\DelegateHandler.cs" />
     <Compile Include="concreteAction\IConcreteAction.cs" />
-    <Compile Include="implementationAction\DeserializeAction.cs" />
-    <Compile Include="implementationAction\SerializeAction.cs" />
     <Compile Include="implPrimitive\BoolPrimitive.cs" />
     <Compile Include="implPrimitive\BytePrimitive.cs" />
     <Compile Include="implPrimitive\CharPrimitive.cs" />
@@ -66,9 +64,7 @@
     <Compile Include="util\ArrayIterator.cs" />
     <Compile Include="errors\NonMetaSerializerException.cs" />
     <Compile Include="implPrimitive\IPrimitive.cs" />
-    <Compile Include="researchAlgorithm\IPrimitiveFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="researchAlgorithm\AbstractAction.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,4 @@
-﻿using nonMetaSerializer.implPrimitive;
-using nonMetaSerializer.implementationAction;
+﻿using nonMetaSerializer.actionContainers;
 
 namespace nonMetaSerializer
 {
@@ -8,13 +7,13 @@ namespace nonMetaSerializer
 
         public static byte[] Serialize(object dataObject)
         {
-            var serializer = new SerializeAction(new ImplPrimitiveFactory());
+            var serializer = new Serialize();
             return serializer.StreamRecord(dataObject);
         }
 
         public static T Deserialize<T>(byte[] representBytes)
         {
-            var deserializer = new DeserializeAction(new ImplPrimitiveFactory(), representBytes);
+            var deserializer = new Deserialize(representBytes);
             return (T)deserializer.ObjectRecord(typeof(T));
         }
     }
