@@ -44,6 +44,9 @@
     <Compile Include="BytesStream.cs" />
     <Compile Include="concreteAction\ActionFactory.cs" />
     <Compile Include="concreteAction\ArrayAction.cs" />
+    <Compile Include="concreteAction\EasyDataObject.cs" />
+    <Compile Include="concreteAction\PrimitiveAction.cs" />
+    <Compile Include="concreteAction\StringAction.cs" />
     <Compile Include="implPrimitive\DelegateHandler.cs" />
     <Compile Include="concreteAction\IConcreteAction.cs" />
     <Compile Include="implementationAction\DeserializeAction.cs" />

@@ -11,19 +11,19 @@ namespace nonMetaSerializer.concreteAction
         {
             if (type.IsArray)
             {
-                ForArray();
+                return new ArrayAction(type);
             }
             else if (type.IsPrimitive)
             {
-                ForPrimitive();
+                return new PrimitiveAction(type);
             }
             else if (type == typeof(string))
             {
-                ForString();
+                return new StringAction(type);
             }
             else
             {
-                ForEasyDataObject();
+                return new EasyDataObject(type);
             }
         }
     }

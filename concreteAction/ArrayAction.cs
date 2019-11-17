@@ -46,13 +46,17 @@ namespace nonMetaSerializer.concreteAction
                 int[] indices = arrayIndex.GetNext();
                 array.SetValue(elementValue, indices);
             }
+
+            return recordObject;
         }
 
         List<byte> IConcreteAction.Serialize(object dataObject)
         {
-            var array = (Array)recordObject;
+            List<byte> resultStream = new List<byte>();
 
-            IPrimitive rankPrimitive = primitiveFactory.MakePrimitive(typeof(byte));
+            var array = (Array)dataObject;
+
+            IPrimitive rankPrimitive = PrimitiveFactory.MakePrimitive(typeof(byte));
             byte[] rank = rankPrimitive.GetByteStream((byte)array.Rank);
             resultStream.AddRange(rank);
 
@@ -62,10 +66,12 @@ namespace nonMetaSerializer.concreteAction
             {
                 lengths[dimension] = array.GetLength(dimension);
 
-                IPrimitive lengthPrimitive = primitiveFactory.MakePrimitive(typeof(ushort));
+                IPrimitive lengthPrimitive = PrimitiveFactory.MakePrimitive(typeof(ushort));
                 byte[] bytesToWrite = lengthPrimitive.GetByteStream((ushort)lengths[dimension]);
                 resultStream.AddRange(bytesToWrite);
             }
+
+            IConcreteAction action = ActionFactory.MakeAction(type.GetElementType()); //!!!
 
             var arrayIndexator = new ArrayIterator(lengths);
             for (int i = 0; i < array.Length; i++)
@@ -73,9 +79,11 @@ namespace nonMetaSerializer.concreteAction
                 int[] index = arrayIndexator.GetNext();
                 object arrayItem = array.GetValue(index);
 
-                byte[] data = CreateNewSerializeInstance(arrayItem);
+                List<byte> data = action.Serialize(arrayItem);
                 resultStream.AddRange(data);
             }
+
+            return resultStream;
         }
     }
 }
