@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using nonMetaSerializer.researchAlgorithm;
+﻿using System.Collections.Generic;
 
 namespace nonMetaSerializer.implPrimitive
 {

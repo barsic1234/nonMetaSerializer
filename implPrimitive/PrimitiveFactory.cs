@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using nonMetaSerializer.researchAlgorithm;
 using nonMetaSerializer.errors;
 
 namespace nonMetaSerializer.implPrimitive
 {
     internal static class PrimitiveFactory
     {
-        private static BoolPrimitive boolPrimitive = new BoolPrimitive();
-        private static BytePrimitive bytePrimitive = new BytePrimitive();
-        private static CharPrimitive charPrimitive = new CharPrimitive();
-        private static DoublePrimitive doublePrimitive = new DoublePrimitive();
-        private static FloatPrimitive floatPrimitive = new FloatPrimitive();
-        private static IntegerPrimitive integerPrimitive = new IntegerPrimitive();
-        private static LongPrimitive longPrimitive = new LongPrimitive();
-        private static ShortPrimitive shortPrimitive = new ShortPrimitive();
-        private static UintPrimitive uintPrimitive = new UintPrimitive();
-        private static UlongPrimitive ulongPrimitive = new UlongPrimitive();
-        private static UshortPrimitive ushortPrimitive = new UshortPrimitive();
+        private static readonly BoolPrimitive boolPrimitive = new BoolPrimitive();
+        private static readonly BytePrimitive bytePrimitive = new BytePrimitive();
+        private static readonly CharPrimitive charPrimitive = new CharPrimitive();
+        private static readonly DoublePrimitive doublePrimitive = new DoublePrimitive();
+        private static readonly FloatPrimitive floatPrimitive = new FloatPrimitive();
+        private static readonly IntegerPrimitive integerPrimitive = new IntegerPrimitive();
+        private static readonly LongPrimitive longPrimitive = new LongPrimitive();
+        private static readonly ShortPrimitive shortPrimitive = new ShortPrimitive();
+        private static readonly UintPrimitive uintPrimitive = new UintPrimitive();
+        private static readonly UlongPrimitive ulongPrimitive = new UlongPrimitive();
+        private static readonly UshortPrimitive ushortPrimitive = new UshortPrimitive();
 
         internal static IPrimitive MakePrimitive(Type type)
         {

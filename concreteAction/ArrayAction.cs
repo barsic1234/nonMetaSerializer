@@ -1,10 +1,7 @@
 ﻿using nonMetaSerializer.implPrimitive;
-using nonMetaSerializer.researchAlgorithm;
 using nonMetaSerializer.util;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace nonMetaSerializer.concreteAction
 {
