@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace nonMetaSerializer.implPrimitive
+﻿namespace nonMetaSerializer.implPrimitive
 {
     class BytePrimitive : IPrimitive
     {
@@ -15,7 +13,7 @@ namespace nonMetaSerializer.implPrimitive
 
         object IPrimitive.GetValueField(StreamExtractorHandler streamExtractor)
         {
-            List<byte> bytes = streamExtractor(length);
+            byte[] bytes = streamExtractor(length);
             byte singleByte = bytes[0];
             return singleByte;
         }

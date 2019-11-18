@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using nonMetaSerializer.implPrimitive;
 
@@ -20,8 +19,8 @@ namespace nonMetaSerializer.concreteAction
             IPrimitive lenStrPrimitive = PrimitiveFactory.MakePrimitive(typeof(ushort));
             ushort lenStr = (ushort)lenStrPrimitive.GetValueField(streamExtractor);
             lenStr *= 2;
-            List<byte> bytesRepresentString = streamExtractor(lenStr);
-            object recordObject = Encoding.Unicode.GetString(bytesRepresentString.ToArray());
+            byte[] bytesRepresentString = streamExtractor(lenStr);
+            object recordObject = Encoding.Unicode.GetString(bytesRepresentString);
 
             return recordObject;
         }

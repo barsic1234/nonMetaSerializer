@@ -8,12 +8,12 @@ namespace nonMetaSerializer.actionContainers
 {
     internal class Deserialize
     {
-        private readonly List<byte> representBytes;
+        private readonly byte[] representBytes;
         private int indexNextRead;
 
         public Deserialize(byte[] representBytes)
         {
-            this.representBytes = representBytes.ToList();
+            this.representBytes = representBytes;
             indexNextRead = 0;
         }
 
@@ -23,10 +23,13 @@ namespace nonMetaSerializer.actionContainers
             return action.Deserialize(StreamExtractor);
         }
 
-        private List<byte> StreamExtractor(int length)
+        private byte[] StreamExtractor(int length)
         {
-            List<byte> tmp = representBytes.GetRange(indexNextRead, length);
-            indexNextRead += length;
+            byte[] tmp = new byte[length];
+            for (int i = 0; i < length; i++)
+            {
+                tmp[i] = representBytes[indexNextRead++];
+            }
             return tmp;
         }
     }
