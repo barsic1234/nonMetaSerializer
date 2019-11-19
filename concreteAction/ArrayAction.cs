@@ -8,68 +8,103 @@ namespace nonMetaSerializer.concreteAction
     internal class ArrayAction : IConcreteAction
     {
         private readonly Type type;
+        private Array array;
+        private List<byte> resultStream;
         public ArrayAction(Type type)
         {
             this.type = type;
         }
         object IConcreteAction.Deserialize(StreamExtractorHandler streamExtractor)
         {
-            IPrimitive rankPrimitive = PrimitiveFactory.MakePrimitive(typeof(byte));
-            byte rank = (byte)rankPrimitive.GetValueField(streamExtractor);
+            int[] lengths = RecoveryDimensional(streamExtractor);
+            array = ActivateInstance(lengths);
+            return ArraySetElementValue(lengths, streamExtractor);
+        }
 
+        private int[] RecoveryDimensional(StreamExtractorHandler streamExtractor)
+        {
+            byte rank = RankRecovery(streamExtractor);
             int[] lengths = new int[rank];
             IPrimitive lengthPrimitive = PrimitiveFactory.MakePrimitive(typeof(ushort));
-
-            object[] objLen = new object[rank];
-
             for (int dimension = 0; dimension < rank; dimension++)
             {
-                objLen[dimension] = lengthPrimitive.GetValueField(streamExtractor);
-                lengths[dimension] = (ushort)objLen[dimension];
+                lengths[dimension] = (ushort)lengthPrimitive.GetValueField(streamExtractor);
             }
+            return lengths;
+        }
 
-            object recordObject = Activator.CreateInstance(type, objLen);
+        private byte RankRecovery(StreamExtractorHandler streamExtractor)
+        {
+            IPrimitive rankPrimitive = PrimitiveFactory.MakePrimitive(typeof(byte));
+            return (byte)rankPrimitive.GetValueField(streamExtractor);
+        }
 
-            var array = (Array)recordObject;
+        private Array ActivateInstance(int[] lengths)
+        {
+            object[] activationParam = MakeParamsForActivator(lengths);
+            return (Array)Activator.CreateInstance(type, activationParam);
+        }
+        private object[] MakeParamsForActivator(int[] lengths)
+        {
+            var objectArray = new object[lengths.Length];
+            for (int i = 0; i < lengths.Length; i++)
+            {
+                objectArray[i] = lengths[i];
+            }
+            return objectArray;
+        }
 
-            Type typeElement = type.GetElementType();
-
+        private Array ArraySetElementValue(int[] lengths, StreamExtractorHandler streamExtractor)
+        {
+            IConcreteAction action = MakeActionForElementType();
             var arrayIndex = new ArrayIterator(lengths);
             for (int i = 0; i < array.Length; i++)
             {
-                IConcreteAction action = ActionFactory.MakeAction(typeElement);
                 object elementValue = action.Deserialize(streamExtractor);
-
                 int[] indices = arrayIndex.GetNext();
                 array.SetValue(elementValue, indices);
             }
+            return array;
+        }
 
-            return recordObject;
+        private IConcreteAction MakeActionForElementType()
+        {
+            Type typeElement = type.GetElementType();
+            return ActionFactory.MakeAction(typeElement);
         }
 
         List<byte> IConcreteAction.Serialize(object dataObject)
         {
-            List<byte> resultStream = new List<byte>();
+            resultStream = new List<byte>();
+            array = (Array)dataObject;
 
-            var array = (Array)dataObject;
+            int[] lengths = RecordAndExtractDimensional();
+            DeserealizeElement(lengths);
 
+            return resultStream;
+        }
+
+        private int[] RecordAndExtractDimensional()
+        {
             IPrimitive rankPrimitive = PrimitiveFactory.MakePrimitive(typeof(byte));
             byte[] rank = rankPrimitive.GetByteStream((byte)array.Rank);
             resultStream.AddRange(rank);
 
+            IPrimitive lengthPrimitive = PrimitiveFactory.MakePrimitive(typeof(ushort));
             int[] lengths = new int[array.Rank];
-
             for (int dimension = 0; dimension < array.Rank; dimension++)
             {
                 lengths[dimension] = array.GetLength(dimension);
 
-                IPrimitive lengthPrimitive = PrimitiveFactory.MakePrimitive(typeof(ushort));
                 byte[] bytesToWrite = lengthPrimitive.GetByteStream((ushort)lengths[dimension]);
                 resultStream.AddRange(bytesToWrite);
             }
+            return lengths;
+        }
 
-            IConcreteAction action = ActionFactory.MakeAction(type.GetElementType()); //!!!
-
+        private void DeserealizeElement(int[] lengths)
+        {
+            IConcreteAction action = MakeActionForElementType();
             var arrayIndexator = new ArrayIterator(lengths);
             for (int i = 0; i < array.Length; i++)
             {
@@ -79,8 +114,6 @@ namespace nonMetaSerializer.concreteAction
                 List<byte> data = action.Serialize(arrayItem);
                 resultStream.AddRange(data);
             }
-
-            return resultStream;
         }
     }
 }
