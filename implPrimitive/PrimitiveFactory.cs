@@ -3,7 +3,7 @@ using nonMetaSerializer.errors;
 
 namespace nonMetaSerializer.implPrimitive
 {
-    internal static class PrimitiveFactory
+    internal static class PrimitiveFactory //фабрика, возвращааающа набор действий, для конкретного примитива
     {
         private static readonly BoolPrimitive boolPrimitive = new BoolPrimitive();
         private static readonly BytePrimitive bytePrimitive = new BytePrimitive();

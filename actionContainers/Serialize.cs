@@ -6,7 +6,7 @@ using System.Text;
 
 namespace nonMetaSerializer.actionContainers
 {
-    internal class Serialize
+    internal class Serialize //класс для сериализации объекта
     {
         public Serialize()
         {

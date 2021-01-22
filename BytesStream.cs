@@ -2,7 +2,7 @@
 
 namespace nonMetaSerializer
 {
-    public static class BytesStream
+    public static class BytesStream //основной класс для использования функций библиотеки
     {
 
         public static byte[] Serialize(object dataObject)

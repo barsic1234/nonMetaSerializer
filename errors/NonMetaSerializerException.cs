@@ -8,7 +8,7 @@ namespace nonMetaSerializer.errors
         NOT_SERIALIZABLE,
         UNASSIGNED_PRIMIRIVE
     }
-    internal class NonMetaSerializerException : Exception
+    internal class NonMetaSerializerException : Exception //класс, представляющий ошибки, генерируемые библиотекой
     {
         public NonMetaSerializerException(ErrorCode errorCode, string nameField) :
             base(GetMessage(errorCode, nameField))

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace nonMetaSerializer.actionContainers
 {
-    internal class Deserialize
+    internal class Deserialize //класс для десериализации объекта и хранения массива байт
     {
         private readonly byte[] representBytes;
         private int indexNextRead;
@@ -23,7 +23,7 @@ namespace nonMetaSerializer.actionContainers
             return action.Deserialize(StreamExtractor);
         }
 
-        private byte[] StreamExtractor(int length)
+        private byte[] StreamExtractor(int length) //метод для извлечения требуемого колиества байт из массива
         {
             byte[] tmp = new byte[length];
             for (int i = 0; i < length; i++)

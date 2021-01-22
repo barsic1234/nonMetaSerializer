@@ -103,6 +103,16 @@ namespace nonMetaSerializer
         }
 
         [TestMethod]
+        public void ClassInStructureArray()
+        {
+            var inStructArr = new ClassInStructure[1] { new ClassInStructure() };
+            inStructArr[0].field = new ArrayInClass() { field = new int[] { 6, 60 } };
+            byte[] data = BytesStream.Serialize(inStructArr);
+            ClassInStructure[] decod = BytesStream.Deserialize<ClassInStructure[]>(data);
+            Assert.IsTrue(inStructArr[0].Equals(decod[0]));
+        }
+
+        [TestMethod]
         public void String()
         {
             string str = "yteeehk";

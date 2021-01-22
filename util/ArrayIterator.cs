@@ -5,7 +5,7 @@ using System.Text;
 
 namespace nonMetaSerializer.util
 {
-    public class ArrayIterator
+    public class ArrayIterator //вспомогательный класс, служащий для последовательного перебора элементов в массиве
     {
         private readonly int[] lengths;
         private readonly int[] indices;

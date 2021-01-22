@@ -5,7 +5,7 @@ using System.Text;
 
 namespace nonMetaSerializer.concreteAction
 {
-    internal static class ActionFactory
+    internal static class ActionFactory //фабрика, возвращающая набор действий дл конкретного типаа объекта
     {
         internal static IConcreteAction MakeAction(Type type)
         {

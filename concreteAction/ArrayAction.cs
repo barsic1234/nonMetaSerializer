@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace nonMetaSerializer.concreteAction
 {
-    internal class ArrayAction : IConcreteAction
+    internal class ArrayAction : IConcreteAction //действия для массива
     {
         private readonly Type type;
         private Array array;
@@ -21,7 +21,7 @@ namespace nonMetaSerializer.concreteAction
             return ArraySetElementValue(lengths, streamExtractor);
         }
 
-        private int[] RecoveryDimensional(StreamExtractorHandler streamExtractor)
+        private int[] RecoveryDimensional(StreamExtractorHandler streamExtractor) //восстановление измерений
         {
             byte rank = RankRecovery(streamExtractor);
             int[] lengths = new int[rank];
@@ -33,18 +33,18 @@ namespace nonMetaSerializer.concreteAction
             return lengths;
         }
 
-        private byte RankRecovery(StreamExtractorHandler streamExtractor)
+        private byte RankRecovery(StreamExtractorHandler streamExtractor) // восстановление числа измерений
         {
             IPrimitive rankPrimitive = PrimitiveFactory.MakePrimitive(typeof(byte));
             return (byte)rankPrimitive.GetValueField(streamExtractor);
         }
 
-        private Array ActivateInstance(int[] lengths)
+        private Array ActivateInstance(int[] lengths) // создание массива объектов требуемого типа и размерности
         {
             object[] activationParam = MakeParamsForActivator(lengths);
             return (Array)Activator.CreateInstance(type, activationParam);
         }
-        private object[] MakeParamsForActivator(int[] lengths)
+        private object[] MakeParamsForActivator(int[] lengths) //заполнение массива параметров для создания массива
         {
             var objectArray = new object[lengths.Length];
             for (int i = 0; i < lengths.Length; i++)
@@ -54,7 +54,7 @@ namespace nonMetaSerializer.concreteAction
             return objectArray;
         }
 
-        private Array ArraySetElementValue(int[] lengths, StreamExtractorHandler streamExtractor)
+        private Array ArraySetElementValue(int[] lengths, StreamExtractorHandler streamExtractor) //заполнение элементов массива значениями
         {
             IConcreteAction action = MakeActionForElementType();
             var arrayIndex = new ArrayIterator(lengths);
@@ -67,7 +67,7 @@ namespace nonMetaSerializer.concreteAction
             return array;
         }
 
-        private IConcreteAction MakeActionForElementType()
+        private IConcreteAction MakeActionForElementType() //полчение класса, выполняющего действия над определенным типом объектов
         {
             Type typeElement = type.GetElementType();
             return ActionFactory.MakeAction(typeElement);
